@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jharkhand Josh | Elite Strategic PR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="icon" type="image/jpeg" href="logo/LOGO.jpg.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --accent: #f59e0b;
+            --bg: #05070a;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            aspect-ratio: 4/5;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: all 0.8s ease;
+        }
+
+        .portfolio-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        /* Nav transition */
+        .nav-scrolled {
+            background: rgba(5, 7, 10, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem !important;
+        }
+
+        @media (max-width: 768px) {
+
+            .custom-cursor,
+            .cursor-follower {
+                display: none;
+            }
+
+            body {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-follower" id="follower"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed w-full z-[100] py-10 px-8 flex justify-between items-center transition-all duration-700">
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 rounded-full overflow-hidden bg-white flex items-center justify-center">
+                <img src="logo/LOGO.jpg.jpeg" alt="Jharkhand Josh Logo" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <div class="font-black tracking-tighter text-xl leading-none uppercase">Jharkhand Josh</div>
+                <div class="text-[8px] uppercase tracking-[0.5em] text-amber-500 font-bold">Elite Strategic PR</div>
+            </div>
+        </div>
+        <div class="hidden lg:flex space-x-12 items-center">
+            <a href="#services"
+                class="text-[10px] uppercase font-black tracking-widest text-white/50 hover:text-white transition-all">Services</a>
+            <a href="#portfolio"
+                class="text-[10px] uppercase font-black tracking-widest text-white/50 hover:text-white transition-all">Portfolio</a>
+            <a href="#team"
+                class="text-[10px] uppercase font-black tracking-widest text-white/50 hover:text-white transition-all">Strategists</a>
+            <a href="#contact"
+                class="bg-amber-500 text-black px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Initiate</a>
+        </div>
+        <button class="lg:hidden text-white" onclick="toggleMenu()">
+            <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black z-[150] opacity-0 pointer-events-none transition-all duration-500 flex flex-col items-center justify-center space-y-8">
+        <a href="#services" onclick="toggleMenu()"
+            class="text-4xl font-black italic tracking-tighter uppercase">Services</a>
+        <a href="#portfolio" onclick="toggleMenu()"
+            class="text-4xl font-black italic tracking-tighter uppercase">Portfolio</a>
+        <a href="#team" onclick="toggleMenu()"
+            class="text-4xl font-black italic tracking-tighter uppercase">Strategists</a>
+        <a href="#contact" onclick="toggleMenu()"
+            class="text-4xl font-black italic tracking-tighter uppercase text-amber-500">Contact</a>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="min-h-screen flex items-center relative overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0 opacity-30">
+            <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-amber-500/20 blur-[150px] rounded-full"></div>
+            <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-blue-500/10 blur-[150px] rounded-full">
+            </div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+            <div class="reveal">
+                <span class="text-amber-500 font-black uppercase tracking-[0.5em] text-[10px] block mb-6">The Architect
+                    of Narratives</span>
+                <h1 class="text-[14vw] md:text-[11rem] font-black leading-[0.8] tracking-tighter mb-12">
+                    SILENT <br>
+                    <span class="text-stroke italic">POWER.</span>
+                </h1>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-12">
+                    <p class="text-white/50 max-w-lg text-lg md:text-xl font-light leading-relaxed">
+                        Jharkhand Josh is the premier strategic PR firm for those who shape the future. We don't just
+                        follow trends; we command the conversation.
+                    </p>
+                    <a href="#contact"
+                        class="group flex items-center gap-6 bg-white text-black px-12 py-6 rounded-full font-black uppercase tracking-widest text-xs hover:bg-amber-500 transition-all transform hover:scale-105">
+                        Consult with us
+                        <svg class="group-hover:translate-x-2 transition-transform" xmlns="http://www.w3.org/2000/svg"
+                            width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-40 bg-black">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="reveal mb-24">
+                <span class="text-amber-500 font-black uppercase tracking-[0.5em] text-xs">Capabilities</span>
+                <h2 class="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] mt-4 mb-8 italic">
+                    OFFERINGS.</h2>
+                <p class="text-white/40 max-w-xl text-xl font-light leading-relaxed">We provide a full spectrum of
+                    influence, from high-stakes political maneuvers to global brand positioning.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="glass-card p-12 rounded-[2.5rem] reveal">
+                    <div
+                        class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-10 border border-amber-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-6">Political PR</h3>
+                    <p class="text-white/40 font-light mb-8 leading-relaxed">Comprehensive election management and
+                        candidate positioning across the state landscape.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Constituency Profiling
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Manifesto Strategy
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Voter Outreach
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-card p-12 rounded-[2.5rem] reveal delay-100">
+                    <div
+                        class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-10 border border-amber-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-6">Crisis Control</h3>
+                    <p class="text-white/40 font-light mb-8 leading-relaxed">Rapid-response protocols to protect and
+                        rehabilitate reputations under fire.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Risk Mitigation
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Media Suppression
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Truth Engineering
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-card p-12 rounded-[2.5rem] reveal delay-200">
+                    <div
+                        class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-10 border border-amber-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-6">Digital Media</h3>
+                    <p class="text-white/40 font-light mb-8 leading-relaxed">High-impact visual synthesis and
+                        algorithmic content placement for maximum reach.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Social Intelligence
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Viral Content Ops
+                        </li>
+                        <li class="flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-white/80">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Paid Narrative Ads
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-40 bg-white text-black">
+        <div class="max-w-[1600px] mx-auto px-8">
+            <div class="reveal mb-24">
+                <span class="text-amber-600 font-black uppercase tracking-[0.5em] text-xs">Portfolio</span>
+                <h2 class="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] mt-4 mb-8 uppercase">Case
+                    Files.</h2>
+                <p class="text-slate-400 max-w-xl text-xl font-light italic">A curated selection of our most impactful
+                    movements across political and corporate landscapes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="portfolioGrid">
+                <!-- Project 1 -->
+                <div class="portfolio-item reveal">
+                    <img src="images/WhatsApp Image 2026-03-25 at 14.37.26.jpeg" alt="Project">
+                    <div class="portfolio-overlay">
+                        <span
+                            class="text-amber-500 font-black text-[10px] uppercase tracking-widest mb-2">Campaign</span>
+                        <h4 class="text-white text-3xl font-black italic tracking-tighter">Digital Dominance</h4>
+                        <p class="text-white/60 text-sm font-light mt-2">National Narrative Building</p>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="portfolio-item reveal delay-100">
+                    <img src="images/WhatsApp Image 2026-03-25 at 14.37.27 (1).jpeg" alt="Project">
+                    <div class="portfolio-overlay">
+                        <span class="text-amber-500 font-black text-[10px] uppercase tracking-widest mb-2">Crisis</span>
+                        <h4 class="text-white text-3xl font-black italic tracking-tighter">Shield Protocol</h4>
+                        <p class="text-white/60 text-sm font-light mt-2">Corporate Reputation Defense</p>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="portfolio-item reveal delay-200">
+                    <img src="images/WhatsApp Image 2026-03-25 at 14.37.27 (2).jpeg" alt="Project">
+                    <div class="portfolio-overlay">
+                        <span
+                            class="text-amber-500 font-black text-[10px] uppercase tracking-widest mb-2">Political</span>
+                        <h4 class="text-white text-3xl font-black italic tracking-tighter">Voter Insight 2024</h4>
+                        <p class="text-white/60 text-sm font-light mt-2">Ground-level Data Analysis</p>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="portfolio-item reveal delay-300">
+                    <img src="images/WhatsApp Image 2026-03-25 at 14.37.27 (3).jpeg" alt="Project">
+                    <div class="portfolio-overlay">
+                        <span class="text-amber-500 font-black text-[10px] uppercase tracking-widest mb-2">Media</span>
+                        <h4 class="text-white text-3xl font-black italic tracking-tighter">News Synthesis</h4>
+                        <p class="text-white/60 text-sm font-light mt-2">Visual Content Architecture</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 flex justify-center reveal">
+                <button id="viewArchiveBtn" onclick="addMockProject()"
+                    class="group flex items-center gap-4 text-black font-black uppercase tracking-widest text-xs border-b-2 border-black pb-2 hover:text-amber-600 hover:border-amber-600 transition-all">
+                    View Entire Archive
+                    <svg class="group-hover:rotate-45 transition-transform" xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-40 px-8 relative overflow-hidden bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-24 text-center">
+                <span class="text-amber-500 font-black uppercase tracking-[0.5em] text-xs">The Minds</span>
+                <h2 class="text-6xl md:text-9xl font-black tracking-tighter leading-[0.8] mt-4 italic uppercase">
+                    Strategists.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+                <!-- Team Member 1 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal delay-100">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-200 rounded-full mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/emp's/manishKumar.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Manish Kumar</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">CEO and
+                        Founder</span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in political and
+                        corporate PR, delivering impactful campaigns and building strong brand reputations."
+                    </p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-amber-500 to-amber-200 rounded-full mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/emp's/Kanchan.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Kanchan</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">Co-Founder,
+                        Managing Director & PR Strategist
+                    </span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in political and
+                        corporate PR, driving impactful campaigns and strong brand narratives"</p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal delay-200">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-gray-500 to-gray-200 rounded-full mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="emp's/srishtiJha.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Srishti Jha</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">Content
+                        Writer</span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in creating impactful
+                        narratives for political and corporate clients, enhancing visibility and engagement."</p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal delay-200">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-gray-500 to-gray-200 rounded-full mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/emp's/vivekRajSingh.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Vivke Raj Singh</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">Team Leader
+                        & PR Strategist</span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in political and
+                        corporate PR, delivering impactful campaigns and building strong public credibility."</p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 5 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal delay-200">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-gray-500 to-gray-200 rounded-full mb-8 overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/emp's/rahulKumar.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Rahul Kumar</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">Camera
+                        Person</span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in photo and video
+                        content, delivering impactful visuals for campaigns and events."</p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 6 -->
+                <div class="glass-card p-10 rounded-[2.5rem] reveal delay-200">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-br from-gray-500 to-gray-200 rounded-full mb-8 o    verflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/emp's/AABB.jpeg" class="w-full h-full object-cover" alt="Team">
+                    </div>
+                    <h3 class="text-4xl font-black italic tracking-tighter mb-2">Utkarsh Mani Tiwari</h3>
+                    <span class="text-amber-500 font-black uppercase tracking-widest text-[10px] block mb-6">Social
+                        media manager & contant strategist</span>
+                    <p class="text-white/40 font-light leading-relaxed mb-8 italic">"Specializes in content planning,
+                        brand storytelling, and executing impactful social media campaigns."</p>
+                    <div class="flex space-x-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-500 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-40 bg-black text-white relative">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-24">
+            <div class="reveal">
+                <h2 class="text-7xl md:text-[8rem] font-black tracking-tighter leading-[0.8] italic mb-12 uppercase">
+                    Reach<br>HQ.</h2>
+                <div class="space-y-12">
+                    <div>
+                        <span class="text-amber-500 text-[10px] font-black uppercase tracking-widest block mb-4">Direct
+                            Dial</span>
+                        <p class="text-4xl md:text-5xl font-black tracking-tighter italic">+91 9279136212</p>
+                    </div>
+                    <div>
+                        <span
+                            class="text-amber-500 text-[10px] font-black uppercase tracking-widest block mb-4">Official
+                            Dispatch</span>
+                        <a href="mailto:jharkhandjoshnews@gmail.com"
+                            class="text-2xl font-light underline decoration-amber-500 underline-offset-8 italic">
+                            jharkhandjoshnews@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-12 md:p-20 rounded-[3rem] reveal delay-200 shadow-2xl">
+                <form id="contactForm" class="space-y-10">
+                    <input type="text" id="name" name="name" placeholder="Name" required
+                        class="w-full bg-transparent border-b border-white/20 py-4 focus:outline-none focus:border-amber-500 transition-colors text-2xl font-bold tracking-tighter">
+
+                    <input type="tel" id="phone" name="phone" placeholder="Contact - No" required
+                        class="w-full bg-transparent border-b border-white/20 py-4 focus:outline-none focus:border-amber-500 transition-colors text-2xl font-bold tracking-tighter">
+
+                    <input type="email" id="email" name="email" placeholder="Email Address" required
+                        class="w-full bg-transparent border-b border-white/20 py-4 focus:outline-none focus:border-amber-500 transition-colors text-2xl font-bold tracking-tighter">
+
+                    <textarea id="message" name="message" rows="4" placeholder="Tell us about your requirement" required
+                        class="w-full bg-transparent border-b border-white/20 py-4 focus:outline-none focus:border-amber-500 transition-colors text-2xl font-bold tracking-tighter resize-none"></textarea>
+
+                    <p id="formStatus" class="text-sm font-bold tracking-wider uppercase text-amber-500 hidden"></p>
+
+                    <button type="submit" id="submitBtn"
+                        class="w-full py-8 bg-white text-black font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-500 transition-all transform hover:scale-[1.02]">
+                        Send Transmission
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="py-12 border-t border-white/5 opacity-40 text-center text-[10px] font-black uppercase tracking-[0.4em]">
+        © 2026 Jharkhand Josh PR Agency • The Elite Standard
+    </footer>
+
+    <!-- WhatsApp Floating -->
+    <a href="https://wa.me/919279136212" target="_blank"
+        class="fixed bottom-12 right-12 z-[200] w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-black">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </a>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            follower.style.transform = `translate(${e.clientX - 15}px, ${e.clientY - 15}px)`;
+        });
+
+        // Hover expansions
+        document.querySelectorAll('a, button, input, textarea, .portfolio-item, .glass-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform = `scale(2.5)`;
+                follower.style.background = 'rgba(255, 255, 255, 0.1)';
+                follower.style.borderColor = 'white';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.transform = `scale(1)`;
+                follower.style.background = 'transparent';
+                follower.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+            });
+        });
+
+        // Scroll Reveal logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.onload = reveal;
+
+        // Sticky Nav logic
+        window.onscroll = function () {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 80) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+        };
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            if (menu.style.opacity === '1') {
+                menu.style.opacity = '0';
+                menu.style.pointerEvents = 'none';
+                icon.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+            } else {
+                menu.style.opacity = '1';
+                menu.style.pointerEvents = 'all';
+                icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+            }
+        }
+
+        // JJPR archive images from /images folder
+        const jjprArchiveItems = [
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (4).jpeg', title: 'JJPR Case File 05', cat: 'Archive', desc: 'Public Outreach' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (5).jpeg', title: 'JJPR Case File 06', cat: 'Archive', desc: 'Press Coordination' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (6).jpeg', title: 'JJPR Case File 07', cat: 'Archive', desc: 'Event Snapshot' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (7).jpeg', title: 'JJPR Case File 08', cat: 'Archive', desc: 'Strategic Coverage' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (8).jpeg', title: 'JJPR Case File 09', cat: 'Archive', desc: 'Public Narrative' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (9).jpeg', title: 'JJPR Case File 10', cat: 'Archive', desc: 'Visual Chronicle' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (10).jpeg', title: 'JJPR Case File 11', cat: 'Archive', desc: 'Team Execution' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (11).jpeg', title: 'JJPR Case File 12', cat: 'Archive', desc: 'On-ground Frame' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (12).jpeg', title: 'JJPR Case File 13', cat: 'Archive', desc: 'Movement Record' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (13).jpeg', title: 'JJPR Case File 14', cat: 'Archive', desc: 'Operational Capture' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (14).jpeg', title: 'JJPR Case File 15', cat: 'Archive', desc: 'Regional Presence' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (15).jpeg', title: 'JJPR Case File 16', cat: 'Archive', desc: 'Influence Snapshot' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (16).jpeg', title: 'JJPR Case File 17', cat: 'Archive', desc: 'Event Documentation' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (17).jpeg', title: 'JJPR Case File 18', cat: 'Archive', desc: 'Campaign Display' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (18).jpeg', title: 'JJPR Case File 19', cat: 'Archive', desc: 'Visual Report' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27 (19).jpeg', title: 'JJPR Case File 20', cat: 'Archive', desc: 'Archive Coverage' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.27.jpeg', title: 'JJPR Case File 21', cat: 'Archive', desc: 'Campaign Gallery' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.28.jpeg', title: 'JJPR Case File 22', cat: 'Archive', desc: 'Strategic Gallery' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.29 (1).jpeg', title: 'JJPR Case File 23', cat: 'Archive', desc: 'Archive Documentation' },
+            { img: 'images/WhatsApp Image 2026-03-25 at 14.37.29.jpeg', title: 'JJPR Case File 24', cat: 'Archive', desc: 'Field Archive' }, ,
+            { img: 'images/WhatsApp Video 2026-03-25 at 14.37.28.mp4', title: 'JJPR Case File 25', cat: 'Video Archive', desc: 'Campaign Video Documentation', type: 'video' },
+            { img: 'images/WhatsApp Video 2026-03-25 at 14.37.29.mp4', title: 'JJPR Case File 26', cat: 'Video Archive', desc: 'Field Movement Footage', type: 'video' }
+        ];
+
+        let archiveLoaded = false;
+
+        function createPortfolioItem(item) {
+            const div = document.createElement('div');
+            div.className = 'portfolio-item reveal active';
+
+            const mediaContent = item.type === 'video'
+                ? `<video autoplay muted loop playsinline class="w-full h-full object-cover">
+                <source src="${encodeURI(item.img)}" type="video/mp4">
+           </video>`
+                : `<img src="${encodeURI(item.img)}" alt="${item.title}">`;
+
+            div.innerHTML = `
+        ${mediaContent}
+        <div class="portfolio-overlay">
+            <span class="text-amber-500 font-black text-[10px] uppercase tracking-widest mb-2">${item.cat}</span>
+            <h4 class="text-white text-3xl font-black italic tracking-tighter">${item.title}</h4>
+            <p class="text-white/60 text-sm font-light mt-2">${item.desc}</p>
+        </div>
+    `;
+            return div;
+        }
+
+        // Add JJPR Portfolio Items Logic
+        function addMockProject() {
+            if (archiveLoaded) return;
+
+            const grid = document.getElementById('portfolioGrid');
+            const button = document.getElementById('viewArchiveBtn');
+
+            jjprArchiveItems.forEach(item => {
+                const card = createPortfolioItem(item);
+                grid.appendChild(card);
+            });
+
+            // Re-bind cursor hover effect for newly added items
+            document.querySelectorAll('.portfolio-item').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    follower.style.transform = `scale(2.5)`;
+                    follower.style.background = 'rgba(255, 255, 255, 0.1)';
+                    follower.style.borderColor = 'white';
+                });
+                el.addEventListener('mouseleave', () => {
+                    follower.style.transform = `scale(1)`;
+                    follower.style.background = 'transparent';
+                    follower.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+                });
+            });
+
+            archiveLoaded = true;
+            button.innerHTML = 'Archive Loaded';
+            button.disabled = true;
+            button.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        // EmailJS Init
+        emailjs.init("zhLVgqNuHZBLiY6nD");
+
+        // Contact Form EmailJS
+        const contactForm = document.getElementById("contactForm");
+        const formStatus = document.getElementById("formStatus");
+        const submitBtn = document.getElementById("submitBtn");
+
+        contactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "SENDING...";
+            formStatus.classList.remove("hidden");
+            formStatus.textContent = "Transmitting your request...";
+
+            const templateParams = {
+                from_name: document.getElementById("name").value,
+                from_phone: document.getElementById("phone").value,
+                from_email: document.getElementById("email").value,
+                message: document.getElementById("message").value,
+                to_name: "JJ PR Agency"
+            };
+
+            emailjs.send("service_86hxep9", "template_uisksj5", templateParams)
+                .then(function () {
+                    formStatus.textContent = "Transmission successful. JJ PR will contact you shortly.";
+                    formStatus.classList.remove("text-red-500");
+                    formStatus.classList.add("text-amber-500");
+                    contactForm.reset();
+                })
+                .catch(function (error) {
+                    console.error("EmailJS Error:", error);
+                    formStatus.textContent = "Transmission failed. Please try again.";
+                    formStatus.classList.remove("text-amber-500");
+                    formStatus.classList.add("text-red-500");
+                })
+                .finally(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Send Transmission";
+                });
+        });
+    </script>
+</body>
+
+</html>
